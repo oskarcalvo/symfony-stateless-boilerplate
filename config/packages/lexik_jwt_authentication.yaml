@@ -1,0 +1,25 @@
+lexik_jwt_authentication:
+    secret_key: '%env(resolve:JWT_SECRET_KEY)%'
+    public_key: '%env(resolve:JWT_PUBLIC_KEY)%'
+    pass_phrase: '%env(JWT_PASSPHRASE)%'
+    token_ttl: 3600
+
+    # The token carries the user id (UUID) as "sub"; the user itself is reloaded from the database.
+    user_id_claim: sub
+
+    token_extractors:
+        # API clients (mobile, other services): "Authorization: Bearer <jwt>"
+        authorization_header:
+            enabled: true
+            prefix: Bearer
+            name: Authorization
+        # Browser (server-rendered login form): HttpOnly cookie set by the web login
+        cookie:
+            enabled: true
+            name: BEARER
+
+    # Logout revokes the token (by its "jti" claim) until it expires.
+    # cache.app is per server: use a shared pool (Redis...) when running several instances.
+    blocklist_token:
+        enabled: true
+        cache: cache.app

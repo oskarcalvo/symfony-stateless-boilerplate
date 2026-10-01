@@ -1,0 +1,20 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+
+    # Stateless application: no PHP session, no session cookie. Identity travels in the JWT
+    # (Authorization header or BEARER cookie) and the user is reloaded from the database per request.
+    session: false
+
+    # Behind a reverse proxy / load balancer set SYMFONY_TRUSTED_PROXIES (proxy IPs or "private_ranges").
+    # Without it the app sees the proxy's IP (breaking login rate limiting) and plain HTTP
+    # (BEARER cookie without "secure", CSRF origin checks against the wrong scheme/host).
+    trusted_proxies: '%env(default::SYMFONY_TRUSTED_PROXIES)%'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port', 'x-forwarded-prefix']
+
+    #esi: true
+    #fragments: true
+
+when@test:
+    framework:
+        test: true

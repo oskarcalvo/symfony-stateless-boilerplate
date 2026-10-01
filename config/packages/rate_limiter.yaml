@@ -1,0 +1,12 @@
+framework:
+    rate_limiter:
+        # Same policy as Symfony's login_throttling: brute force on one account...
+        login_local:
+            policy: sliding_window
+            limit: 5
+            interval: '1 minute'
+        # ...and credential stuffing from one IP across many accounts.
+        login_global:
+            policy: sliding_window
+            limit: 25
+            interval: '1 minute'

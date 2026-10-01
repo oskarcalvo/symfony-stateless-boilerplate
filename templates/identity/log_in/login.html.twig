@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block body %}
+    <h1>Iniciar sesión</h1>
+
+    {{ form_start(form, {action: path('identity_login')}) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.password) }}
+        <button type="submit">Entrar</button>
+    {{ form_end(form) }}
+{% endblock %}

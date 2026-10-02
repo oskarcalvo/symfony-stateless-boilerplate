@@ -21,6 +21,8 @@ security:
             stateless: true
             provider: identity_users
             jwt: ~
+            # No "logout" here: it would answer any HTTP method, GET included. POST /api/v1/logout is a
+            # controller (LogOutApiController) that revokes the token through Security::logout().
         main:
             # Token in the HttpOnly BEARER cookie set by /login; failures redirect to /login.
             lazy: true
@@ -39,6 +41,9 @@ security:
     access_control:
         # Public endpoints must be declared above the catch-all rules (e.g. ^/api/v1/login).
         - { path: ^/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/v1/register$, roles: PUBLIC_ACCESS }
         # /user answers anonymous visitors with a 401 page itself instead of redirecting them to /login.
         - { path: ^/user$, roles: PUBLIC_ACCESS }
         - { path: ^/api/, roles: IS_AUTHENTICATED }

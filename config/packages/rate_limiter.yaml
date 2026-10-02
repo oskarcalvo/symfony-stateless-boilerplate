@@ -10,3 +10,8 @@ framework:
             policy: sliding_window
             limit: 25
             interval: '1 minute'
+        # Sign-ups (web and API) from one IP: stops mass account creation and hashing floods.
+        registration:
+            policy: sliding_window
+            limit: 10
+            interval: '1 hour'

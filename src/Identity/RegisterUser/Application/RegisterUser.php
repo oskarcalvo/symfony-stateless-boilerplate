@@ -26,7 +26,7 @@ final class RegisterUser
      * @throws UserAlreadyExists
      * @throws \InvalidArgumentException when the email or the name is not valid
      */
-    public function __invoke(string $email, string $name, string $plainPassword): UserId
+    public function __invoke(string $email, string $name, string $plainPassword): User
     {
         $email = Email::fromString($email);
         $name = UserName::fromString($name);
@@ -38,6 +38,6 @@ final class RegisterUser
         $user = User::register(UserId::generate(), $email, $name, $this->passwordHasher->hash($plainPassword), $this->clock->now());
         $this->users->save($user);
 
-        return $user->id();
+        return $user;
     }
 }

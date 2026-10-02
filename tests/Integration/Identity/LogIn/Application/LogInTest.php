@@ -20,11 +20,11 @@ final class LogInTest extends KernelTestCase
 
     public function testItIssuesATokenForTheUserOwningTheCredentials(): void
     {
-        $id = static::getContainer()->get(RegisterUser::class)('john@example.com', 'John Doe', 's3cret-Passw0rd');
+        $user = static::getContainer()->get(RegisterUser::class)('john@example.com', 'John Doe', 's3cret-Passw0rd');
 
         $token = static::getContainer()->get(LogIn::class)('john@example.com', 's3cret-Passw0rd');
 
-        self::assertSame($id->value, static::getContainer()->get(JWTTokenManagerInterface::class)->parse($token->value)['sub']);
+        self::assertSame($user->id()->value, static::getContainer()->get(JWTTokenManagerInterface::class)->parse($token->value)['sub']);
     }
 
     public function testItRejectsAMalformedEmailAsInvalidCredentials(): void

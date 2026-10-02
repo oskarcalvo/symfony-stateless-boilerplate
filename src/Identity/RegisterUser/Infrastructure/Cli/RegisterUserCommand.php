@@ -26,14 +26,14 @@ final class RegisterUserCommand
         #[Argument('The name shown to the user')] string $name,
     ): int {
         try {
-            $id = ($this->registerUser)($email, $name, $password);
+            $user = ($this->registerUser)($email, $name, $password);
         } catch (UserAlreadyExists|\InvalidArgumentException $e) {
             $io->error($e->getMessage());
 
             return Command::FAILURE;
         }
 
-        $io->success(\sprintf('User "%s" registered with id %s.', $email, $id));
+        $io->success(\sprintf('User "%s" registered with id %s.', $user->email(), $user->id()));
 
         return Command::SUCCESS;
     }

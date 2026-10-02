@@ -53,8 +53,9 @@ tests/
 └── Double/        # dobles reutilizables: InMemoryUserRepository, FakePasswordHasher, UserMother...
 ```
 
-Ejemplos de referencia: `src/Identity/LogIn/` (slice con web, caso de uso y throttling) y
-`src/Identity/GetAuthenticatedUser/` (slice de API).
+Ejemplos de referencia: `src/Identity/LogIn/` (slice con web, caso de uso y throttling),
+`src/Identity/GetAuthenticatedUser/` (slice de API) y `src/Identity/RegisterUser/` (un caso de uso servido por
+consola, web y API, con endpoint público). La guía de uso (consola, navegador, API) está en `README.md`.
 
 ## Comandos (todo dentro de DDEV)
 
@@ -89,8 +90,9 @@ Usa la skill `verificar-railguns` antes de dar algo por terminado.
 - Atributos de Doctrine en clases de `Domain/` (el mapeo va en XML).
 - Importar Symfony, Doctrine o Lexik desde `Domain/` o `Application/` (salvo `Uid` y `Psr\Clock`).
 - Importar un slice desde otro, o un contexto desde otro.
-- Guardar secretos en `.env` (solo valores por defecto). La `JWT_PASSPHRASE` real va en `.env.local`,
-  `.env.test.local` o en el vault (`secrets:set`).
+- Versionar `.env` (está en `.gitignore`; esto prevalece sobre lo que dice `AGENTS.md`). Los valores por
+  defecto se versionan en `.env.dist`, que Dotenv carga cuando no hay `.env`, y nunca llevan secretos.
+  La `JWT_PASSPHRASE` real va en `.env.local`, `.env.test.local` o en el vault (`secrets:set`).
 - Desactivar o "ajustar" un test de `tests/Architecture/` para que pase.
 
 ## Skills del proyecto (`.claude/skills/`)

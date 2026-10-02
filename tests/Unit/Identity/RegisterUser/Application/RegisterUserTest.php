@@ -25,10 +25,10 @@ final class RegisterUserTest extends TestCase
 
     public function testItStoresTheUserWithAHashedPassword(): void
     {
-        $id = $this->registerUser()('John@Example.com', ' John  Doe ', 's3cret');
+        $registered = $this->registerUser()('John@Example.com', ' John  Doe ', 's3cret');
 
-        $user = $this->users->ofId($id);
-        self::assertNotNull($user);
+        $user = $this->users->ofId($registered->id());
+        self::assertSame($registered, $user);
         self::assertSame('john@example.com', $user->email()->value);
         self::assertSame('John Doe', $user->name()->value);
         self::assertSame('hashed:s3cret', $user->passwordHash());

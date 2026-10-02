@@ -11,4 +11,6 @@
         {{ form_row(form.password) }}
         <button type="submit">Entrar</button>
     {{ form_end(form) }}
+
+    <p>¿No tienes cuenta? <a href="{{ path('identity_register') }}">Crea una</a></p>
 {% endblock %}

@@ -15,10 +15,11 @@ final class AuthenticatedUserViewTest extends TestCase
     {
         $registeredAt = new \DateTimeImmutable('2026-01-01');
 
-        $view = new AuthenticatedUserView('id', 'john@example.com', ['ROLE_USER'], $registeredAt);
+        $view = new AuthenticatedUserView('id', 'john@example.com', 'John Doe', ['ROLE_USER'], $registeredAt);
 
         self::assertSame('id', $view->id);
         self::assertSame('john@example.com', $view->email);
+        self::assertSame('John Doe', $view->name);
         self::assertSame(['ROLE_USER'], $view->roles);
         self::assertSame($registeredAt, $view->registeredAt);
         self::assertTrue((new \ReflectionClass($view))->isReadOnly());

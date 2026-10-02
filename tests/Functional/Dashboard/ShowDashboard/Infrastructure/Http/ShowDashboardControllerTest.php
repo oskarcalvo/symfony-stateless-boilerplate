@@ -26,6 +26,7 @@ final class ShowDashboardControllerTest extends IdentityWebTestCase
 
         self::assertResponseIsSuccessful();
         self::assertSelectorTextContains('h1', 'john@example.com');
+        self::assertSelectorExists('a[href="/user"]');
         self::assertSelectorExists('form[method="post"][action^="/logout"] button');
     }
 }

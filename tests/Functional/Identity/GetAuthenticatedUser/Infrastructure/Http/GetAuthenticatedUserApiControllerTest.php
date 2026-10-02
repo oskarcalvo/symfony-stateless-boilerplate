@@ -21,6 +21,7 @@ final class GetAuthenticatedUserApiControllerTest extends IdentityWebTestCase
         $body = json_decode($this->client->getResponse()->getContent(), true, flags: \JSON_THROW_ON_ERROR);
         self::assertSame($user->id()->value, $body['id']);
         self::assertSame('john@example.com', $body['email']);
+        self::assertSame('John Doe', $body['name']);
         self::assertSame(['ROLE_USER'], $body['roles']);
     }
 
@@ -50,6 +51,28 @@ final class GetAuthenticatedUserApiControllerTest extends IdentityWebTestCase
         ]);
 
         self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testItRejectsATokenSignedWithAnotherKey(): void
+    {
+        $token = $this->issueTokenSignedWithAnotherKeyFor($this->createUser());
+
+        $this->client->request('GET', '/api/v1/me', server: ['HTTP_AUTHORIZATION' => 'Bearer '.$token]);
+
+        self::assertResponseStatusCodeSame(401);
+    }
+
+    public function testItRejectsATokenSignedWithThePortalKeyButIssuedBySomeoneElse(): void
+    {
+        $user = $this->createUser();
+
+        foreach (['another-app', null] as $issuer) {
+            $this->client->request('GET', '/api/v1/me', server: [
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->issueTokenWithIssuerFor($user, $issuer),
+            ]);
+
+            self::assertResponseStatusCodeSame(401);
+        }
     }
 
     public function testItRejectsAValidTokenWhoseUserNoLongerExists(): void

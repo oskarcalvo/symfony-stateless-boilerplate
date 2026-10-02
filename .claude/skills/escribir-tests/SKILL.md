@@ -29,7 +29,7 @@ description: Cómo escribir el test propio de cada clase (railgun "un test por c
 - `Identity\InMemoryUserRepository`: puerto `UserRepository` en memoria; `$saves` cuenta las escrituras.
 - `Identity\FakePasswordHasher`: "hash" legible (`hashed:<plain>`); `$hashed` registra las llamadas; `needsRehash` configurable.
 - `Identity\FakeAccessTokenIssuer`: devuelve `token-for-<id>`.
-- `Identity\UserMother::create(email, passwordHash, id)`.
+- `Identity\UserMother::create(email, passwordHash, id, name)`.
 - `Symfony\Component\Clock\MockClock('2026-01-01 10:00:00', 'UTC')`: compara siempre en UTC.
 
 Para un puerto nuevo crea su doble aquí; no uses mocks de interfaces de dominio.

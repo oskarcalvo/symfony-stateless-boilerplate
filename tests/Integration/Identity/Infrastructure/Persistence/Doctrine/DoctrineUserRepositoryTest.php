@@ -33,7 +33,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
 
     public function testASavedUserCanBeFoundByIdAndEmail(): void
     {
-        $user = UserMother::create('john@example.com', 'hash');
+        $user = UserMother::create('john@example.com', 'hash', name: 'John Doe');
         $user->grantRole('ROLE_ADMIN');
         $this->users->save($user);
         $this->entityManager->clear();
@@ -45,6 +45,7 @@ final class DoctrineUserRepositoryTest extends KernelTestCase
         self::assertNotSame($user, $byId, 'Must come from the database, not the identity map.');
         self::assertTrue($byId->id()->equals($user->id()));
         self::assertSame('john@example.com', $byId->email()->value);
+        self::assertSame('John Doe', $byId->name()->value);
         self::assertSame('hash', $byId->passwordHash());
         self::assertSame(['ROLE_ADMIN', 'ROLE_USER'], $byId->roles());
         self::assertEquals($user->registeredAt(), $byId->registeredAt());

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mis datos{% endblock %}
+
+{% block body %}
+    <h1>Mis datos</h1>
+
+    <dl>
+        <dt>Nombre</dt>
+        <dd data-test="name">{{ user.name }}</dd>
+        <dt>Correo electrónico</dt>
+        <dd data-test="email">{{ user.email }}</dd>
+    </dl>
+
+    <p>
+        Esta aplicación no tiene sesión: el navegador solo ha enviado la cookie <code>BEARER</code> con un JWT
+        firmado por el portal. De él se ha sacado tu identificador (<code>sub</code>: {{ user.id }}) y con él se han
+        leído tu nombre y tu correo de la base de datos en esta misma petición. No hay <code>$_SESSION</code> de
+        donde recuperarlos.
+    </p>
+
+    <p><a href="{{ path('dashboard') }}">Volver al inicio</a></p>
+
+    {# logout_path() already carries the stateless CSRF token for the "logout" id #}
+    <form method="post" action="{{ logout_path() }}">
+        <button type="submit">Cerrar sesión</button>
+    </form>
+{% endblock %}

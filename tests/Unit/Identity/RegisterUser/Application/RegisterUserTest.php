@@ -25,11 +25,12 @@ final class RegisterUserTest extends TestCase
 
     public function testItStoresTheUserWithAHashedPassword(): void
     {
-        $id = $this->registerUser()('John@Example.com', 's3cret');
+        $id = $this->registerUser()('John@Example.com', ' John  Doe ', 's3cret');
 
         $user = $this->users->ofId($id);
         self::assertNotNull($user);
         self::assertSame('john@example.com', $user->email()->value);
+        self::assertSame('John Doe', $user->name()->value);
         self::assertSame('hashed:s3cret', $user->passwordHash());
         self::assertEquals(new \DateTimeImmutable('2026-01-01 10:00:00', new \DateTimeZone('UTC')), $user->registeredAt());
         self::assertSame(['ROLE_USER'], $user->roles());
@@ -37,24 +38,31 @@ final class RegisterUserTest extends TestCase
 
     public function testTheEmailMustBeUnique(): void
     {
-        $this->registerUser()('john@example.com', 's3cret');
+        $this->registerUser()('john@example.com', 'John Doe', 's3cret');
 
         $this->expectException(UserAlreadyExists::class);
 
-        $this->registerUser()('JOHN@example.com', 'other');
+        $this->registerUser()('JOHN@example.com', 'Other', 'other');
     }
 
     public function testTheEmailMustBeValid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $this->registerUser()('not-an-email', 's3cret');
+        $this->registerUser()('not-an-email', 'John Doe', 's3cret');
+    }
+
+    public function testTheNameMustBeValid(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->registerUser()('john@example.com', '   ', 's3cret');
     }
 
     public function testNothingIsStoredWhenRegistrationFails(): void
     {
         try {
-            $this->registerUser()('not-an-email', 's3cret');
+            $this->registerUser()('john@example.com', '', 's3cret');
         } catch (\InvalidArgumentException) {
         }
 

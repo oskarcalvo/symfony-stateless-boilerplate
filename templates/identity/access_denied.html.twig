@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Acceso no permitido{% endblock %}
+
+{% block body %}
+    <h1>Acceso no permitido</h1>
+
+    <p>
+        Para ver esta página necesitas un token emitido por este portal y un usuario registrado.
+        Si tenías un token que no era válido, ya se ha borrado.
+    </p>
+
+    <p><a href="{{ path('identity_login') }}">Iniciar sesión</a></p>
+{% endblock %}

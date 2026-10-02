@@ -20,7 +20,7 @@ final class LogInTest extends KernelTestCase
 
     public function testItIssuesATokenForTheUserOwningTheCredentials(): void
     {
-        $id = static::getContainer()->get(RegisterUser::class)('john@example.com', 's3cret-Passw0rd');
+        $id = static::getContainer()->get(RegisterUser::class)('john@example.com', 'John Doe', 's3cret-Passw0rd');
 
         $token = static::getContainer()->get(LogIn::class)('john@example.com', 's3cret-Passw0rd');
 

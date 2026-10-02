@@ -22,6 +22,7 @@ final class GetAuthenticatedUser
         return new AuthenticatedUserView(
             $user->id()->value,
             $user->email()->value,
+            $user->name()->value,
             $user->roles(),
             $user->registeredAt(),
         );

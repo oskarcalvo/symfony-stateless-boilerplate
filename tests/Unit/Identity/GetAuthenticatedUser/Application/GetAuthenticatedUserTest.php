@@ -18,13 +18,14 @@ final class GetAuthenticatedUserTest extends TestCase
     public function testItReturnsAViewOfTheUser(): void
     {
         $users = new InMemoryUserRepository();
-        $user = UserMother::create('john@example.com');
+        $user = UserMother::create('john@example.com', name: 'John Doe');
         $users->save($user);
 
         $view = (new GetAuthenticatedUser($users))($user->id());
 
         self::assertSame($user->id()->value, $view->id);
         self::assertSame('john@example.com', $view->email);
+        self::assertSame('John Doe', $view->name);
         self::assertSame(['ROLE_USER'], $view->roles);
         self::assertSame($user->registeredAt(), $view->registeredAt);
     }

@@ -11,6 +11,7 @@ doctrine:
         types:
             identity_user_id: App\Identity\Infrastructure\Persistence\Doctrine\Type\UserIdType
             identity_email: App\Identity\Infrastructure\Persistence\Doctrine\Type\EmailType
+            identity_user_name: App\Identity\Infrastructure\Persistence\Doctrine\Type\UserNameType
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore

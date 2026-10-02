@@ -67,7 +67,7 @@ ddev exec bin/console lint:twig templates/
 ddev exec bin/console lint:yaml config/
 ddev exec bin/console make:migration --no-interaction
 ddev exec bin/console doctrine:migrations:migrate --no-interaction            # y con --env=test
-ddev exec bin/console identity:user:register <email> <password>
+ddev exec bin/console identity:user:register <email> <password> <name>
 ```
 
 `php` no está en el host: usa siempre `ddev exec`.

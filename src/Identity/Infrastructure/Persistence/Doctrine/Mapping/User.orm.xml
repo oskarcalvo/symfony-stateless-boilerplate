@@ -7,6 +7,7 @@
         <id name="id" type="identity_user_id"/>
 
         <field name="email" type="identity_email" unique="true"/>
+        <field name="name" type="identity_user_name"/>
         <field name="passwordHash" type="string" length="255"/>
         <field name="roles" type="json"/>
         <field name="registeredAt" type="datetime_immutable"/>

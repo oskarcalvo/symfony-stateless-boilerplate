@@ -23,9 +23,10 @@ final class RegisterUserCommand
         SymfonyStyle $io,
         #[Argument('The user email')] string $email,
         #[Argument('The plain password')] string $password,
+        #[Argument('The name shown to the user')] string $name,
     ): int {
         try {
-            $id = ($this->registerUser)($email, $password);
+            $id = ($this->registerUser)($email, $name, $password);
         } catch (UserAlreadyExists|\InvalidArgumentException $e) {
             $io->error($e->getMessage());
 

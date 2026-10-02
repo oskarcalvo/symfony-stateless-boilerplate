@@ -17,15 +17,16 @@ class User
     private function __construct(
         private UserId $id,
         private Email $email,
+        private UserName $name,
         private string $passwordHash,
         private array $roles,
         private \DateTimeImmutable $registeredAt,
     ) {
     }
 
-    public static function register(UserId $id, Email $email, string $passwordHash, \DateTimeImmutable $registeredAt): self
+    public static function register(UserId $id, Email $email, UserName $name, string $passwordHash, \DateTimeImmutable $registeredAt): self
     {
-        return new self($id, $email, $passwordHash, [], $registeredAt);
+        return new self($id, $email, $name, $passwordHash, [], $registeredAt);
     }
 
     public function id(): UserId
@@ -36,6 +37,11 @@ class User
     public function email(): Email
     {
         return $this->email;
+    }
+
+    public function name(): UserName
+    {
+        return $this->name;
     }
 
     public function passwordHash(): string

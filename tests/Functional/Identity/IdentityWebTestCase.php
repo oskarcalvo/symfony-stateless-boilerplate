@@ -6,7 +6,6 @@ namespace App\Tests\Functional\Identity;
 
 use App\Identity\Domain\AccessTokenIssuer;
 use App\Identity\Domain\User;
-use App\Identity\Domain\UserRepository;
 use App\Identity\RegisterUser\Application\RegisterUser;
 use Doctrine\ORM\EntityManagerInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -32,9 +31,7 @@ abstract class IdentityWebTestCase extends WebTestCase
 
     protected function createUser(string $email = 'john@example.com', string $password = 's3cret-Passw0rd', string $name = 'John Doe'): User
     {
-        $id = static::getContainer()->get(RegisterUser::class)($email, $name, $password);
-
-        return static::getContainer()->get(UserRepository::class)->ofId($id);
+        return static::getContainer()->get(RegisterUser::class)($email, $name, $password);
     }
 
     protected function issueTokenFor(User $user): string

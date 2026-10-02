@@ -39,6 +39,8 @@ security:
     access_control:
         # Public endpoints must be declared above the catch-all rules (e.g. ^/api/v1/login).
         - { path: ^/login$, roles: PUBLIC_ACCESS }
+        # /user answers anonymous visitors with a 401 page itself instead of redirecting them to /login.
+        - { path: ^/user$, roles: PUBLIC_ACCESS }
         - { path: ^/api/, roles: IS_AUTHENTICATED }
         - { path: ^/, roles: IS_AUTHENTICATED }
 

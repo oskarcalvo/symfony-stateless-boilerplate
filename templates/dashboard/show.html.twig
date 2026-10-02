@@ -5,6 +5,8 @@
 {% block body %}
     <h1>Hola, {{ app.user.email }}</h1>
 
+    <p><a href="{{ path('identity_user') }}">Mis datos</a></p>
+
     {# logout_path() already carries the stateless CSRF token for the "logout" id #}
     <form method="post" action="{{ logout_path() }}">
         <button type="submit">Cerrar sesión</button>

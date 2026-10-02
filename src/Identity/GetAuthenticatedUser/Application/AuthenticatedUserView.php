@@ -12,6 +12,7 @@ final readonly class AuthenticatedUserView
     public function __construct(
         public string $id,
         public string $email,
+        public string $name,
         public array $roles,
         public \DateTimeImmutable $registeredAt,
     ) {

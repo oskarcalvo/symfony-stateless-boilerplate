@@ -32,18 +32,18 @@ final class RegisterUserCommandTest extends TestCase
 
     public function testItRegistersTheUser(): void
     {
-        $status = $this->tester->execute(['email' => 'john@example.com', 'password' => 's3cret']);
+        $status = $this->tester->execute(['email' => 'john@example.com', 'password' => 's3cret', 'name' => 'John Doe']);
 
         self::assertSame(Command::SUCCESS, $status);
         self::assertStringContainsString('User "john@example.com" registered', $this->tester->getDisplay());
-        self::assertNotNull($this->users->ofEmail(Email::fromString('john@example.com')));
+        self::assertSame('John Doe', $this->users->ofEmail(Email::fromString('john@example.com'))?->name()->value);
     }
 
     public function testADuplicatedEmailFails(): void
     {
-        $this->tester->execute(['email' => 'john@example.com', 'password' => 's3cret']);
+        $this->tester->execute(['email' => 'john@example.com', 'password' => 's3cret', 'name' => 'John Doe']);
 
-        $status = $this->tester->execute(['email' => 'john@example.com', 'password' => 'other']);
+        $status = $this->tester->execute(['email' => 'john@example.com', 'password' => 'other', 'name' => 'Other']);
 
         self::assertSame(Command::FAILURE, $status);
         self::assertStringContainsString('already exists', $this->tester->getDisplay());
@@ -51,10 +51,19 @@ final class RegisterUserCommandTest extends TestCase
 
     public function testAnInvalidEmailFails(): void
     {
-        $status = $this->tester->execute(['email' => 'not-an-email', 'password' => 's3cret']);
+        $status = $this->tester->execute(['email' => 'not-an-email', 'password' => 's3cret', 'name' => 'John Doe']);
 
         self::assertSame(Command::FAILURE, $status);
         self::assertStringContainsString('is not a valid email', $this->tester->getDisplay());
+        self::assertSame(0, $this->users->saves);
+    }
+
+    public function testABlankNameFails(): void
+    {
+        $status = $this->tester->execute(['email' => 'john@example.com', 'password' => 's3cret', 'name' => '  ']);
+
+        self::assertSame(Command::FAILURE, $status);
+        self::assertStringContainsString('is not a valid name', $this->tester->getDisplay());
         self::assertSame(0, $this->users->saves);
     }
 }

@@ -93,17 +93,19 @@ final class LogInWebControllerTest extends IdentityWebTestCase
         self::assertResponseRedirects('/login');
     }
 
-    public function testAnInvalidTokenCookieIsClearedAndRedirectsToLogin(): void
+    public function testAnInvalidTokenCookieIsClearedAndAccessIsDenied(): void
     {
         $this->client->getCookieJar()->set(new Cookie(AccessTokenCookie::NAME, 'not-a-jwt', domain: 'localhost'));
 
         $this->client->request('GET', '/');
 
-        self::assertResponseRedirects('/login');
+        self::assertResponseStatusCodeSame(401);
+        self::assertSelectorTextContains('h1', 'Acceso no permitido');
         self::assertSame(1, $this->bearerCookieFromResponse()?->getExpiresTime());
 
-        $this->client->followRedirect();
+        $this->client->clickLink('Iniciar sesión');
         self::assertResponseIsSuccessful();
+        self::assertRouteSame('identity_login');
     }
 
     public function testAnAuthenticatedUserVisitingLoginIsSentToTheDashboard(): void
